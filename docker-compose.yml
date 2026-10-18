@@ -1,0 +1,21 @@
+services:
+  ai-assistant-voice:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:8400:8400/tcp"
+      - "30000-30040:30000-30040/udp"
+    volumes:
+      - voice-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,noexec,nosuid,nodev
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+volumes:
+  voice-data:
